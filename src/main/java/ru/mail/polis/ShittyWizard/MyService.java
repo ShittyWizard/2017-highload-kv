@@ -18,10 +18,10 @@ public class MyService implements KVService {
     private File data;
 
     public MyService(int port, File data) throws IOException {
-        this.data = data;
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
         this.server.createContext("/v0/status", this::StatusHandle);
         this.server.createContext("/v0/entity", this::EntityHandle);
+        this.data = data;
     }
 
     @Override
@@ -34,37 +34,37 @@ public class MyService implements KVService {
         this.server.stop(0);
     }
 
-    private void StatusHandle(HttpExchange http) throws IOException {
-        sendHttpResponse(http, 200, "OK");
+    private void StatusHandle(HttpExchange httpExchange) throws IOException {
+        sendHttpResponse(httpExchange, 200, "OK");
     }
 
-    private void EntityHandle(HttpExchange http) throws IOException {
-        Map<String, String> params = MyService.queryToMap(http.getRequestURI().getQuery());
+    private void EntityHandle(HttpExchange httpExchange) throws IOException {
+        Map<String, String> params = MyService.queryToMap(httpExchange.getRequestURI().getQuery());
         if (!params.containsKey(KEY_ID)) {
-            sendHttpResponse(http, 404, "Need ID");
+            sendHttpResponse(httpExchange, 404, "Need ID");
             return;
         }
         if (params.get(KEY_ID).isEmpty()) {
-            sendHttpResponse(http, 400, "Empty ID");
+            sendHttpResponse(httpExchange, 400, "Empty ID");
             return;
         }
         File file = new File(data.getAbsolutePath() + params.get(KEY_ID));
 
-        if (http.getRequestMethod().equalsIgnoreCase("GET")) {
+        if (httpExchange.getRequestMethod().equalsIgnoreCase("GET")) {
             if (!file.exists()) {
-                sendHttpResponse(http, 404, "Not found");
+                sendHttpResponse(httpExchange, 404, "Not found");
                 return;
             }
-            sendHttpResponse(http, 200, file);
+            sendHttpResponse(httpExchange, 200, file);
 
-        } else if (http.getRequestMethod().equalsIgnoreCase("PUT")) {
+        } else if (httpExchange.getRequestMethod().equalsIgnoreCase("PUT")) {
             if (!file.exists()) file.createNewFile();
-            copyRequestBodyToFile(http, file);
-            sendHttpResponse(http, 201, "Created");
+            copyRequestBodyToFile(httpExchange, file);
+            sendHttpResponse(httpExchange, 201, "Created");
 
-        } else if (http.getRequestMethod().equalsIgnoreCase("DELETE")) {
+        } else if (httpExchange.getRequestMethod().equalsIgnoreCase("DELETE")) {
             if (!file.exists() || file.delete()) {
-                sendHttpResponse(http, 202, "Accepted");
+                sendHttpResponse(httpExchange, 202, "Accepted");
             } else
                 throw new IOException();
 
@@ -91,11 +91,11 @@ public class MyService implements KVService {
 
     private void copyRequestBodyToFile(HttpExchange httpExchange, File file) throws IOException {
         byte[] buffer = new byte[1024];
-        BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-        InputStream is = httpExchange.getRequestBody();
-        for (int n = is.read(buffer); n > 0; n = is.read(buffer))
-            bos.write(buffer);
-        bos.close();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(file));
+        InputStream inputStream = httpExchange.getRequestBody();
+        for (int n = inputStream.read(buffer); n > 0; n = inputStream.read(buffer))
+            bufferedOutputStream.write(buffer);
+        bufferedOutputStream.close();
     }
 
     private static Map<String, String> queryToMap(String query) {
