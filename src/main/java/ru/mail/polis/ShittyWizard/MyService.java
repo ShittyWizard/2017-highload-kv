@@ -14,8 +14,9 @@ public class MyService implements KVService {
 
     private static final String KEY_ID = "id";
 
-    private HttpServer server;
     private File data;
+    private HttpServer server;
+
 
     public MyService(int port, File data) throws IOException {
         this.server = HttpServer.create(new InetSocketAddress(port), 0);
