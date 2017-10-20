@@ -3,7 +3,11 @@ language: java
 dist: trusty
 jdk: openjdk8
 
-script: ./gradlew check
+env:
+   global:
+   - _JAVA_OPTIONS="-Xmx1g"
+
+script: ./gradlew --info test
 
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
