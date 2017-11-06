@@ -58,7 +58,7 @@ public class NodeService implements KVService {
 
     @Override
     public void stop() {
-        server.stop(1);
+        server.stop(0);
     }
 
     private void StatusHandle(HttpExchange httpExchange) throws IOException {
