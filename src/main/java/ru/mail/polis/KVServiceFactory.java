@@ -1,7 +1,7 @@
 package ru.mail.polis;
 
 import org.jetbrains.annotations.NotNull;
-import ru.mail.polis.ShittyWizard.MyService;
+import ru.mail.polis.ShittyWizard.NodeService;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,6 +48,7 @@ final class KVServiceFactory {
             throw new IllegalArgumentException("Path is not a directory: " + data);
         }
 
-        return new MyService(port, data);
+        return new NodeService(port, data, topology);
+        //return new MyService(port, data);
     }
 }
