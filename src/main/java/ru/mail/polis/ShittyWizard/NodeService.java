@@ -61,16 +61,7 @@ public class NodeService implements KVService {
     @Override
     public void stop() {
         server.stop(0);
-        try {
-            URL url = new URL("http:/"+ server.getAddress().toString()); // ?????????? надо разобраться
-            URLConnection connection = url.openConnection();
-            while(true) {
-                connection.connect();
-                System.out.println("...connected"); // сюда даже не заходит
-            }
-        } catch (Exception e){
-            System.out.println("Node is succesfully down!");
-        }
+        //TODO: fix the problem ( URLConnection )
     }
 
     private void StatusHandle(HttpExchange httpExchange) throws IOException {
