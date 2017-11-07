@@ -62,10 +62,11 @@ public class NodeService implements KVService {
     public void stop() {
         server.stop(0);
         try {
-            URL url = new URL(server.getAddress().toString());
+            URL url = new URL(server.getAddress().toString()); // ?????????? надо разобраться
             URLConnection connection = url.openConnection();
             while(true) {
                 connection.connect();
+                System.out.println("...connected");
             }
         } catch (Exception e){
             System.out.println("Node is succesfully down!");
