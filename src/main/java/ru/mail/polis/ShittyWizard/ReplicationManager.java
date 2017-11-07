@@ -29,9 +29,8 @@ public class ReplicationManager {
         int successReplication = 1;
         int connections = 1;
         int failedConnections = 0;
-        int t = 0;
+
         for (String host : topology) {
-            t++;
             if (connections == from) break;
             host = host.replace("localhost", "127.0.0.1");
             if (!host.equals(master)) {

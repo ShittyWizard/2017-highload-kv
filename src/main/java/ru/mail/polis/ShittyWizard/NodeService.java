@@ -6,6 +6,8 @@ import ru.mail.polis.KVService;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Set;
 
@@ -59,6 +61,15 @@ public class NodeService implements KVService {
     @Override
     public void stop() {
         server.stop(0);
+        try {
+            URL url = new URL(server.getAddress().toString());
+            URLConnection connection = url.openConnection();
+            while(true) {
+                connection.connect();
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     private void StatusHandle(HttpExchange httpExchange) throws IOException {
