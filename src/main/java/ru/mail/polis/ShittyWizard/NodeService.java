@@ -68,7 +68,7 @@ public class NodeService implements KVService {
                 connection.connect();
             }
         } catch (Exception e){
-            e.printStackTrace();
+            System.out.println("Node is succesfully down!");
         }
     }
 
