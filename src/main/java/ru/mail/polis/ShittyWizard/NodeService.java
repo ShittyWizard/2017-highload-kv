@@ -63,7 +63,7 @@ public class NodeService implements KVService {
         server.stop(0);
         //TODO: fix the problem ( URLConnection )
         try{
-            URL url = new URL(server.getAddress().toString());
+            URL url = new URL("http:/" + server.getAddress().toString());
             while (true) {
                 URLConnection urlConnection = url.openConnection();
                 urlConnection.connect();
