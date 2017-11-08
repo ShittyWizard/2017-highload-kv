@@ -65,7 +65,6 @@ public class NodeService implements KVService {
         try{
             while (true) {
                 server.getAddress();
-                System.out.println("Node still alive.");
             }
         } catch(Exception e){
             e.printStackTrace();
