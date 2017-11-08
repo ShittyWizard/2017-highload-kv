@@ -64,8 +64,8 @@ public class NodeService implements KVService {
         //TODO: fix the problem ( URLConnection )
         try{
             while (true) {
+                System.out.println(server.getAddress());
                 Thread.sleep(1_000);
-                server.getAddress();
             }
         } catch(Exception e){
             e.printStackTrace();
