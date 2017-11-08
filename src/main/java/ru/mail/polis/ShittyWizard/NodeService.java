@@ -6,8 +6,6 @@ import ru.mail.polis.KVService;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Set;
 

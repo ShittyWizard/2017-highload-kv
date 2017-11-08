@@ -49,6 +49,5 @@ final class KVServiceFactory {
         }
 
         return new NodeService(port, data, topology);
-        //return new MyService(port, data);
     }
 }
