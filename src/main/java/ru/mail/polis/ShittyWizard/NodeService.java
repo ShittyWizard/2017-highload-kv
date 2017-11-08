@@ -6,6 +6,8 @@ import ru.mail.polis.KVService;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Set;
 
@@ -60,6 +62,18 @@ public class NodeService implements KVService {
     public void stop() {
         server.stop(0);
         //TODO: fix the problem ( URLConnection )
+        try{
+            URL url = new URL(server.getAddress().toString());
+            while (true) {
+                URLConnection urlConnection = url.openConnection();
+                urlConnection.connect();
+                System.out.println(server.getAddress().toString());
+                System.out.println("Node still alive.");
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+            System.out.println("Node is down.");
+        }
     }
 
     private void StatusHandle(HttpExchange httpExchange) throws IOException {
