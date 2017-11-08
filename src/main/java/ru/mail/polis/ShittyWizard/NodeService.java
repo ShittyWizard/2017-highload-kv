@@ -6,10 +6,9 @@ import ru.mail.polis.KVService;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.net.URL;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.util.Set;
+import java.util.concurrent.Executors;
 
 public class NodeService implements KVService {
 
@@ -64,8 +63,8 @@ public class NodeService implements KVService {
         //TODO: fix the problem ( URLConnection )
         try{
             while (true) {
-                System.out.println(server.getAddress());
-                Thread.sleep(1_000);
+                server.setExecutor(Executors.newSingleThreadExecutor());
+                System.out.println("Node still alive.");
             }
         } catch(Exception e){
             e.printStackTrace();
